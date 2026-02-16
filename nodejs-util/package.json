@@ -1,0 +1,30 @@
+{
+  "name": "kool-nodjs-util",
+  "version": "1.0.0",
+  "description": "NodeJs Utilities",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "scripts": {
+    "build": "npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc",
+    "build:cjs": "tsc --module CommonJS  --explainFiles --outDir ./dist/cjs",
+    "prepare": "npm run build",
+    "test": "jest"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.11.24",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

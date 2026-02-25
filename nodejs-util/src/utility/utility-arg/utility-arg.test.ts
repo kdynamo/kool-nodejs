@@ -1,5 +1,5 @@
 import { ARG_TYPE_BOOLEAN, ARG_TYPE_STRING, getArgKeys, getArgValueKey, processArgs } from "./utility-arg.ts";
-import type { ArgDefined } from "./arg-types.js";
+import type { ArgDefined } from "./arg-types.d.ts";
 
 describe('utility-arg', () => {
     const argDefined: ArgDefined[] = [

@@ -216,15 +216,15 @@ export const getArgHelpBoolean = (argDefined: ArgDefined) => {
             const padding = ' '.repeat(lengthMax - arg.length);
             if (arg.startsWith('--')) {
                 argDescription += `
-${arg}              ${padding}# sets to true
-${arg}={true|false} ${padding}# sets to true or false
---no${arg}          ${padding}# sets to false
+[ ${arg} ]             ${padding}# sets to true
+[ ${arg}={true|false} ] ${padding}# sets to true or false
+[ --no${arg} ]         ${padding}# sets to false
 `;
             } else if (arg.startsWith('-')) {
                 argDescription += `
- ${arg}             ${padding}# sets to true
- ${arg}={true|false}${padding}# sets to true or false
- -no${arg}          ${padding}# sets to false
+[ ${arg} ]             ${padding}# sets to true
+[ ${arg}={true|false} ] ${padding}# sets to true or false
+[ -no${arg} ]          ${padding}# sets to false
 `;
             }
         });
@@ -261,10 +261,12 @@ Argument Description: ${description}
  * ```
  */
 export const getArgHelpExpected = (argDefined: ArgDefined) => {
-    const { args = [], argMessage = '', description = '', expected = [] } = argDefined;
+    const { args = [], argMessage = '', description = '', expected = [], argMultiple=ARG_MULTIPLE_REPLACE } = argDefined;
     let argDescription = argMessage;
     // if argMessage is provided, use it as the argument description. Otherwise, 
     // generate the argument description based on the argument names.
+    const multipleText = (argMultiple === ARG_MULTIPLE_APPEND) ? ' (can be used multiple times)' : '(multiple calls will replace previous value)';
+    const multiplePlus = (argMultiple === ARG_MULTIPLE_APPEND) ? '+' : '';
     if (argMessage === '') {
         let expectedText: string = `\{${expected.join(' | ')}\}`;
         const lengthMax = Math.max(...args.map(arg => arg.length));
@@ -272,14 +274,15 @@ export const getArgHelpExpected = (argDefined: ArgDefined) => {
             const padding = ' '.repeat(lengthMax - arg.length);
             if (arg.startsWith('-')) {
                 argDescription += `
- ${arg} ${expectedText}
- ${arg}=${expectedText}
+ [ ${arg} ${expectedText} ]${multiplePlus}
+ [ ${arg}=${expectedText} ]${multiplePlus}
 `;            }
         });
     }
     if (description) {
         argDescription += `
 Argument Description: ${description}
+${multipleText}
 `;
     }
     return argDescription;

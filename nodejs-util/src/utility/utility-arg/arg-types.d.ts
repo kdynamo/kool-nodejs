@@ -5,7 +5,7 @@
  * The `ArgValues` interface defines the structure for the parsed command line arguments, where the keys are the argument names and the values can be either strings or booleans.
  * The `ArgMuliple` type defines the possible values for handling multiple occurrences of the same argument, such as 'append' or 'replace'.
  */
-export type ArgMultiple = 'appemd' | 'replace';
+export type ArgMultiple = 'append' | 'replace';
 /**
  * 
  * @auther Kevin A. Downing

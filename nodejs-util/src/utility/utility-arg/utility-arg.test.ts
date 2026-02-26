@@ -1,5 +1,5 @@
-import { ARG_TYPE_BOOLEAN, ARG_TYPE_STRING, getArgKeys, getArgValueKey, processArgs } from "./utility-arg.ts";
-import type { ArgDefined } from "./arg-types.js";
+import { ARG_TYPE_BOOLEAN, ARG_TYPE_STRING, getArgHelpBoolean, getArgKeys, getArgValueKey, processArgs } from "./utility-arg.ts";
+import type { ArgDefined } from "./arg-types.d.ts";
 
 describe('utility-arg', () => {
     const argDefined: ArgDefined[] = [
@@ -8,7 +8,7 @@ describe('utility-arg', () => {
         { args: ['-v', '--version'], key: 'version', argType: ARG_TYPE_BOOLEAN, description: 'Displays the version of the application' },
         { args: ['-c', '--config'], key: 'config', argType: ARG_TYPE_STRING, description: 'Specifies the configuration file to use' },
         { args: ['-o', '--output'], key: 'output', argType: ARG_TYPE_STRING, description: 'Specifies the output file to write to' },
-        { args: ['-f', '--flag'], key: 'flag', argType: ARG_TYPE_STRING, defaultValue: false, description: 'Sets a flag with two values' }
+        { args: ['-f', '--flag'], key: 'flag', argType: ARG_TYPE_BOOLEAN, defaultValue: false, argMessage: '-f=<boolean>', description: 'Sets a flag with two values' }
     ];
     it('getArgValueKey', () => {
         expect(getArgValueKey('exec', ['-e', '--exec'])).toBe('exec');
@@ -55,4 +55,22 @@ describe('utility-arg', () => {
     //         expect(e.message).toBe('Missing value for argument \'-f\' (expected 2 values, got 0)');
     //     }
     // });
+    it('get boolean standard help message', () => {
+        const result = getArgHelpBoolean(argDefined[2]);
+        const descriptionMatch = result.match(/Displays the version of the application/);
+        expect(descriptionMatch).not.toBeNull();    
+        const expectedValuesMatch = result.match(/ -no-v/); 
+        expect(expectedValuesMatch).not.toBeNull();
+        const expectedValuesMatch2 = result.match(/--no--version/); 
+        expect(expectedValuesMatch2).not.toBeNull();
+        const expectedValuesMatch3 = result.match(/-v=\{true|false\}/); 
+        expect(expectedValuesMatch3).not.toBeNull();
+    });
+
+        it('get boolean help with specified arg message', () => {
+        const result = getArgHelpBoolean(argDefined[5]);
+        // expect(result).toMatch(/Sets a flag with two valuess/);
+        const descriptionMatch = result.match(/\-f=\<boolean\>/);
+        expect(descriptionMatch).not.toBeNull();    
+    });
 });

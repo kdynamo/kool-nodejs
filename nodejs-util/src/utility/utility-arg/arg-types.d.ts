@@ -58,7 +58,7 @@ export interface ArgDefined {
      * set to 'replace', the resulting object would be `{ tag: 'tag2' }`.
      * Defsault: 'replace'
      */
-    argMultiple?: ArgMuliple;
+    argMultiple?: ArgMultiple;
 
     /**
      * Default Value to assign if an argument is not provided. For example, if the 
@@ -80,6 +80,15 @@ export interface ArgDefined {
      * the description could be `The name of the user`.
      */
     description?: string; 
+
+    /**
+     * A description of the argument value, which can be used for generating help messages
+     * or documentation. If the description is not provided, the expected values will be used 
+     * as the argument description. For example, if the argument is `--type` and the expected 
+     * values are `['json', 'xml']`, the argDescription could be `The type of the output 
+     * (json or xml)`.
+     */
+    argMessage?: string;
 
     /**
      * Validates the data for the argument. For example, if the argument is `--age=30`, the validator could check if the value is a number and within a certain range. The validator function receives the value of the argument, the defined arguments, and the current parsed argument values, and should return a boolean indicating whether the value is valid or not.
@@ -118,3 +127,19 @@ export interface ArgValues {
     [key: string]: StringOrBoolean | StringOrBoolean[];
     remaining: StringOrBoolean[];
 };
+
+/**
+ * @auther Kevin A. Downing
+ * @description Interface for the arguments passed to 
+ * the `getArgs` function, which is responsible for 
+ * parsing the command line arguments based on the d
+ * efined argument configurations. The `nodePath` 
+ * is the path to the Node.js executable, `scriptPath` 
+ * is the path to the script being executed, and `args` 
+ * is an object containing the parsed argument values.
+ */
+export interface GetArgs {
+   nodePath: string;
+   scriptPath: string;
+   args: ArgValues;
+}

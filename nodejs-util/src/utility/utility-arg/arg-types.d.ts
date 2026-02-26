@@ -72,7 +72,7 @@ export interface ArgDefined {
      * For example, if the argument is `--type` and the expected values are `['json', 'xml']`, 
      * the help message would show that the expected values are `json` or `xml`.
      */
-    expected?: string | string[];
+    expected?: string[];
 
     /**
      * A description of the command line argument, which can be used for generating 

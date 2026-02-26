@@ -1,4 +1,4 @@
-import { ARG_TYPE_BOOLEAN, ARG_TYPE_STRING, getArgHelpBoolean, getArgKeys, getArgValueKey, processArgs } from "./utility-arg.ts";
+import { ARG_TYPE_BOOLEAN, ARG_TYPE_STRING, getArgHelpBoolean, getArgHelpExpected, getArgKeys, getArgValueKey, processArgs } from "./utility-arg.ts";
 import type { ArgDefined } from "./arg-types.d.ts";
 
 describe('utility-arg', () => {
@@ -73,4 +73,22 @@ describe('utility-arg', () => {
         const descriptionMatch = result.match(/\-f=\<boolean\>/);
         expect(descriptionMatch).not.toBeNull();    
     });
+
+    it('get expected help message with generated expected values', () => {
+        const argDefinedWithExpected: ArgDefined = { args: ['-t', '--type'], key: 'type', argType: ARG_TYPE_STRING, expected: ['json', 'xml'], description: 'Specifies the type of the output' };
+        const result = getArgHelpExpected(argDefinedWithExpected);
+        const descriptionMatch = result.match(/Specifies the type of the output/);
+        expect(descriptionMatch).not.toBeNull();    
+        const expectedValuesMatch = result.match(/ -t=\{json|xml\}/); 
+        expect(expectedValuesMatch).not.toBeNull();
+    });
+
+     it('get expected help message with custom arg description', () => {
+        const argDefinedWithExpected: ArgDefined = { args: ['-t', '--type'], key: 'type', argMessage: 'Custom Arg Message', argType: ARG_TYPE_STRING, expected: ['json', 'xml'], description: 'Specifies the type of the output' };
+        const result = getArgHelpExpected(argDefinedWithExpected);
+        const descriptionMatch = result.match(/Custom Arg Message/);
+        expect(descriptionMatch).not.toBeNull();    
+        const expectedValuesMatch = result.match(/ -t=\{json|xml\}/); 
+        expect(expectedValuesMatch).toBeNull();
+     });
 });

@@ -206,27 +206,29 @@ export const getArgs = (argDefined: ArgDefined[]): GetArgs => {
  * ```
  */
 export const getArgHelpBoolean = (argDefined: ArgDefined) => {
-    const { args = [], description = '' } = argDefined;
-    
-    let argDescription = '';
-    const lengthMax = Math.max(...args.map(arg => arg.length));
-    args.forEach((arg: string) => {
-        const padding = ' '.repeat(lengthMax - arg.length);
-        if (arg.startsWith('--')) {
-        argDescription += `
+    const { args = [], argMessage = '', description = '' } = argDefined;
+    let argDescription = argMessage;
+    // if argMessage is provided, use it as the argument description. Otherwise, 
+    // generate the argument description based on the argument names.
+    if (argMessage === '') {
+        const lengthMax = Math.max(...args.map(arg => arg.length));
+        args.forEach((arg: string) => {
+            const padding = ' '.repeat(lengthMax - arg.length);
+            if (arg.startsWith('--')) {
+                argDescription += `
 ${arg}              ${padding}# sets to true
 ${arg}={true|false} ${padding}# sets to true or false
 --no${arg}          ${padding}# sets to false
 `;
-        } else if (arg.startsWith('-')) {
-            argDescription += `
+            } else if (arg.startsWith('-')) {
+                argDescription += `
  ${arg}             ${padding}# sets to true
  ${arg}={true|false}${padding}# sets to true or false
  -no${arg}          ${padding}# sets to false
 `;
-        }
-    });
-    argDescription = argDescription.replace(/, $/, '');
+            }
+        });
+    }
     if (description) {
         argDescription += `
 Argument Description: ${description}

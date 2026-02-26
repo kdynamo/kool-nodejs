@@ -82,6 +82,15 @@ export interface ArgDefined {
     description?: string; 
 
     /**
+     * A description of the argument value, which can be used for generating help messages
+     * or documentation. If the description is not provided, the expected values will be used 
+     * as the argument description. For example, if the argument is `--type` and the expected 
+     * values are `['json', 'xml']`, the argDescription could be `The type of the output 
+     * (json or xml)`.
+     */
+    argMessage?: string;
+
+    /**
      * Validates the data for the argument. For example, if the argument is `--age=30`, the validator could check if the value is a number and within a certain range. The validator function receives the value of the argument, the defined arguments, and the current parsed argument values, and should return a boolean indicating whether the value is valid or not.
      * @param arg The argument key that is being validated. This is the key defined in the `ArgDefined` object, which can be used to reference the argument's configuration during validation.
      * @param value The value of the argument to validate. This can be a string or an array of strings, depending on the `argCount` defined for the argument.

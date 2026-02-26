@@ -58,7 +58,7 @@ export interface ArgDefined {
      * set to 'replace', the resulting object would be `{ tag: 'tag2' }`.
      * Defsault: 'replace'
      */
-    argMultiple?: ArgMuliple;
+    argMultiple?: ArgMultiple;
 
     /**
      * Default Value to assign if an argument is not provided. For example, if the 
@@ -118,3 +118,19 @@ export interface ArgValues {
     [key: string]: StringOrBoolean | StringOrBoolean[];
     remaining: StringOrBoolean[];
 };
+
+/**
+ * @auther Kevin A. Downing
+ * @description Interface for the arguments passed to 
+ * the `getArgs` function, which is responsible for 
+ * parsing the command line arguments based on the d
+ * efined argument configurations. The `nodePath` 
+ * is the path to the Node.js executable, `scriptPath` 
+ * is the path to the script being executed, and `args` 
+ * is an object containing the parsed argument values.
+ */
+export interface GetArgs {
+   nodePath: string;
+   scriptPath: string;
+   args: ArgValues;
+}

@@ -1,4 +1,4 @@
-import { ARG_TYPE_BOOLEAN, ARG_TYPE_STRING, getArgKeys, getArgValueKey, processArgs } from "./utility-arg.ts";
+import { ARG_TYPE_BOOLEAN, ARG_TYPE_STRING, getArgHelpBoolean, getArgKeys, getArgValueKey, processArgs } from "./utility-arg.ts";
 import type { ArgDefined } from "./arg-types.d.ts";
 
 describe('utility-arg', () => {
@@ -55,4 +55,15 @@ describe('utility-arg', () => {
     //         expect(e.message).toBe('Missing value for argument \'-f\' (expected 2 values, got 0)');
     //     }
     // });
+    it('get boolean help message', () => {
+        const result = getArgHelpBoolean(argDefined[2]);
+        const descriptionMatch = result.match(/Displays the version of the application/);
+        expect(descriptionMatch).not.toBeNull();    
+        const expectedValuesMatch = result.match(/ -no-v/); 
+        expect(expectedValuesMatch).not.toBeNull();
+        const expectedValuesMatch2 = result.match(/--no--version/); 
+        expect(expectedValuesMatch2).not.toBeNull();
+        const expectedValuesMatch3 = result.match(/-v=\{true|false\}/); 
+        expect(expectedValuesMatch3).not.toBeNull();
+    });
 });

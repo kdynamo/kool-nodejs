@@ -236,3 +236,51 @@ Argument Description: ${description}
     }
     return argDescription;
 }
+
+/**
+ * Returns the help message for an argument with expected values, 
+ * showing the different ways to set the argument to one of the expected values.
+ * @param argDefined Argument definition, which should include the `expected` property 
+ * @returns Argument description with expected values
+ * @example
+ * ```ts
+ * const argDefined: ArgDefined = {
+ *     args: ['-t', '--type'],
+ *     key: 'type',
+ *     argType: ARG_TYPE_STRING,
+ *     expected: ['json', 'xml'],
+ *     description: 'Specifies the type of the output'
+ * };
+ * const helpMessage = getArgHelpExpected(argDefined);
+ * // helpMessage would be:
+ * // `
+ * // -t={json|xml}
+ * // --type={json|xml}
+ * // Argument Description: Specifies the type of the output
+ * // `
+ * ```
+ */
+export const getArgHelpExpected = (argDefined: ArgDefined) => {
+    const { args = [], argMessage = '', description = '', expected = [] } = argDefined;
+    let argDescription = argMessage;
+    // if argMessage is provided, use it as the argument description. Otherwise, 
+    // generate the argument description based on the argument names.
+    if (argMessage === '') {
+        let expectedText: string = `\{${expected.join(' | ')}\}`;
+        const lengthMax = Math.max(...args.map(arg => arg.length));
+        args.forEach((arg: string) => {
+            const padding = ' '.repeat(lengthMax - arg.length);
+            if (arg.startsWith('-')) {
+                argDescription += `
+ ${arg} ${expectedText}
+ ${arg}=${expectedText}
+`;            }
+        });
+    }
+    if (description) {
+        argDescription += `
+Argument Description: ${description}
+`;
+    }
+    return argDescription;
+}

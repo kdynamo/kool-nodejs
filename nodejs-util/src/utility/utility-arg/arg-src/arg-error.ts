@@ -1,5 +1,5 @@
-import { ArgDefined } from "./arg-types.js";
-import { ARG_TYPE_BOOLEAN } from "./utility-arg.ts";
+import { ArgDefined } from "../arg-types.js";
+import { ARG_TYPE_BOOLEAN } from "../utility-arg.ts";
 
 /**
  * Custom error class for invalid arguments.
